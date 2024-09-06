@@ -38,8 +38,7 @@ function pesquisar() {
                         </p>
                         <a href=${dado.link} target="_blank">Mais informações</a>
                     </div>
-            
-            `;
+              `;
         }
         // Se nenhum resultado foi encontrado até o momento, exibe uma mensagem
         if (!resultados) {
