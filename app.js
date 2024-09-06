@@ -1,45 +1,52 @@
-function pesquisar (){
-   let section = document.getElementById('resultados-pesquisa');
-
-   let resultados = '' ;
-
-   for (let dado of dados){
-
-    resultados +=  `
+function pesquisar() {
+    // Seleciona o elemento HTML onde os resultados serão exibidos
+    let section = document.getElementById("resultados-pesquisa");
     
-    <div class="item-resultado">
+    // Obtém o termo de pesquisa inserido pelo usuário
+    let campoPesquisa = document.getElementById("campo-pesquisa").value
 
-                <h2>
-                    <a href="#" target="_blank">${dado.titulo}</a>
-                </h2>
-                <p class="descricao-meta">
-                    ${dado.descricao}
-                </p>
-                <a href=${dado.link} target="_blank">Mais informações</a>
-            </div>
-    
-    `;
-   }
-   section.innerHTML = resultados
+    if (!campoPesquisa) {
+         // Exibe uma mensagem caso o campo esteja vazio
+        section.innerHTML = "<p>Digite algo para pesquisar</p>"
+        return
+    }
+    // Converte o termo de pesquisa para letras minúsculas para facilitar a comparação
+    campoPesquisa = campoPesquisa.toLowerCase();
+    // Inicializa uma string vazia para armazenar os resultados da pesquisa
+    let resultados = '';
+    let titulo = '';
+    let descricao = '';
+    let tags = '';
+
+    for (let dado of dados) {
+        // Converte o título, descrição e tags do objeto atual para minúsculas
+        titulo = dado.titulo.toLowerCase();
+        descricao = dado.descricao.toLowerCase();
+        tags = dado.tags.toLowerCase();
+        // Verifica se o termo de pesquisa está presente no título, descrição ou tags
+        if (titulo.includes(campoPesquisa) || descricao.includes(campoPesquisa) || tags.includes(campoPesquisa)) {
+            // Cria o HTML para exibir um resultado da pesquisa
+            resultados += `
+            
+            <div class="item-resultado">
+        
+                        <h2>
+                            <a href="#" target="_blank">${dado.titulo}</a>
+                        </h2>
+                        <p class="descricao-meta">
+                            ${dado.descricao}
+                        </p>
+                        <a href=${dado.link} target="_blank">Mais informações</a>
+                    </div>
+            
+            `;
+        }
+        // Se nenhum resultado foi encontrado até o momento, exibe uma mensagem
+        if (!resultados) {
+            resultados = "<p>Não encontramos resultados para a sua pesquisa.</p>"
+        }
+    }
+    // Atualiza o conteúdo da seção com os resultados da pesquisa
+    section.innerHTML = resultados
 }
 
-let dados = [
-    {
-        
-            titulo: "Rayssa Leal",
-            descricao: "Rayssa Leal, a Fadinha, é uma skatista brasileira que conquistou o mundo com seu talento e carisma. Aos poucos anos, ela já coleciona títulos e inspira milhões de jovens.",
-            link: "https://pt.wikipedia.org/wiki/Rayssa_Leal"
-        
-    },
-    {
-        titulo: "Aline Silva",
-        descricao: "Aline Silva é uma judoca brasileira, campeã olímpica nos Jogos Olímpicos de 2016. Sua história de superação e determinação a tornou um ícone do esporte nacional.",
-        link: "https://pt.wikipedia.org/wiki/Aline_Silva_(judoca)"
-    },
-    {
-        
-        titulo: "Letícia Bufoni",
-        descricao: "Letícia Bufoni é uma skatista profissional brasileira, considerada uma das melhores do mundo em sua modalidade. Conhecida por sua técnica e criatividade, ela possui uma longa e bem-sucedida carreira.",
-        link: "https://pt.wikipedia.org/wiki/Letícia_Bufoni"
-    }
-]
